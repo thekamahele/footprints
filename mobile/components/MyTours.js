@@ -1,5 +1,5 @@
 'use strict';
- 
+
 var React = require('react-native');
 var TourDetail = require('./TourDetail');
 var Dimensions = require('Dimensions');
@@ -16,8 +16,8 @@ var {
   Component,
   ListView,
   TouchableHighlight
- } = React;
- 
+  } = React;
+
 class MyTours extends Component {
 
   /**
@@ -26,7 +26,7 @@ class MyTours extends Component {
    * @constructor
    * @this {MyTours}
    */
-  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -41,7 +41,7 @@ class MyTours extends Component {
    * ComponentDidMount function is called as soon as the render method is executed.
    * It fetches data from the database and sets the state with the fetched data.
    */
-  componentDidMount () {
+  componentDidMount() {
     this.fetchData();
 
   }
@@ -49,12 +49,12 @@ class MyTours extends Component {
   /**
    * This will rerender changes from edit mode
    * @param nextProps
-	 */
-  componentWillReceiveProps (nextProps) {
+   */
+  componentWillReceiveProps(nextProps) {
     this.fetchData();
   }
 
-  toggleEdit () {
+  toggleEdit() {
     alert('in toggleEdit')
     var newEditState = !this.state.editMode;
     this.setState({editMode: newEditState});
@@ -69,15 +69,15 @@ class MyTours extends Component {
   fetchData() {
     var component = this;
     utils.makeRequest('myTours', component, {})
-    .then((response) => {
-      console.log('response body from MyTours: ', response);
-      var tours = response;
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(tours),
-        isLoading: false
-      });
-    })
-    .done();
+      .then((response) => {
+        console.log('response body from MyTours: ', response);
+        var tours = response;
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(tours),
+          isLoading: false
+        });
+      })
+      .done();
   }
 
   //navToTour (title, toComponent, props) {
@@ -111,18 +111,18 @@ class MyTours extends Component {
     };
     var component = this;
     utils.makeRequest('deleteTour', component, options)
-    .then(response => {
-      console.log('Response body from server after deleting a tour: ', response);
-      utils.makeRequest('myTours', component, {})
-      .then((response) => {
-        console.log('response body from MyTours: ', response);
-        var tours = response;
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(tours),
-          isLoading: false
-        });
+      .then(response => {
+        console.log('Response body from server after deleting a tour: ', response);
+        utils.makeRequest('myTours', component, {})
+          .then((response) => {
+            console.log('response body from MyTours: ', response);
+            var tours = response;
+            this.setState({
+              dataSource: this.state.dataSource.cloneWithRows(tours),
+              isLoading: false
+            });
+          })
       })
-    })
     // this.fetchData();
   }
 
@@ -132,38 +132,38 @@ class MyTours extends Component {
       <View>
         <View style={ [styles.tourContainer, {flexDirection: 'row'}] }>
           <View style={ styles.deleteContainer }>
-            <TouchableHighlight 
-              style={{marginTop: 30}} 
+            <TouchableHighlight
+              style={{marginTop: 30}}
               onPress={ this.deleteTour.bind(this, tour) }
-                underlayColor='#727272'>
-              <Image 
-                source={ require('../assets/deleteicon.png') } 
+              underlayColor='#727272'>
+              <Image
+                source={ require('../assets/deleteicon.png') }
                 style={ [styles.addPlaceIcon, {width: 25}, {height: 25}, {marginTop: 30}] }/>
             </TouchableHighlight>
           </View>
           <View style={ styles.rightContainer }>
             <Image source={{ uri: tour.image }} style={ styles.tourPhoto }>
-                <Text style={ styles.title }>{ tour.tourName }</Text>
-                <Text style={ styles.city }>{ tour.cityName }</Text>
+              <Text style={ styles.title }>{ tour.tourName }</Text>
+              <Text style={ styles.city }>{ tour.cityName }</Text>
             </Image>
           </View>
         </View>
-        <View style={ styles.separator } />
+        <View style={ styles.separator }/>
       </View>
     );
   }
 
   renderTour(tour) {
     return (
-      <TouchableHighlight 
+      <TouchableHighlight
         onPress={ utils.myTourNavigateTo.bind(this, tour.tourName, ViewCreatedTour, {tour}) }>
         <View>
           <View>
-            <Image source={{ uri: tour.image }} style={ styles.tourPhoto } >
+            <Image source={{ uri: tour.image }} style={ styles.tourPhoto }>
               <Text style={ styles.title }>{ tour.tourName }</Text>
               <Text style={ styles.city }>{ tour.cityName }</Text>
             </Image>
-          <View style={ styles.separator } />
+            <View style={ styles.separator }/>
           </View>
         </View>
       </TouchableHighlight>
@@ -171,12 +171,12 @@ class MyTours extends Component {
   }
 
   renderEditMode() {
-    return (  
+    return (
       <ListView
         dataSource={ this.state.dataSource }
         renderRow={ this.renderDeletableTour.bind(this) }
         style={ styles.listView }/>
-        
+
     );
   }
 
@@ -194,16 +194,16 @@ class MyTours extends Component {
     );
   }
 
-  render () {
-    if(this.state.isLoading) {
+  render() {
+    if (this.state.isLoading) {
       return this.renderLoadingView();
     }
-    if(this.state.editMode) {
+    if (this.state.editMode) {
       return this.renderEditMode();
     } else {
       return this.renderViewMode();
     }
-  }  
+  }
 };
- 
+
 module.exports = MyTours;

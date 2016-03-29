@@ -1,5 +1,5 @@
 'use strict';
- 
+
 var React = require('react-native');
 var TourDetail = require('./TourDetail');
 var Dimensions = require('Dimensions');
@@ -14,10 +14,9 @@ var {
   Text,
   Component,
   TouchableHighlight,
-  AsyncStorage,
   NativeModules
  } = React;
- 
+
 class SelectImage extends Component {
 
   /**
@@ -204,7 +203,7 @@ class SelectImage extends Component {
         </View>
       );
     }
-  } 
+  }
 };
- 
+
 module.exports = SelectImage;

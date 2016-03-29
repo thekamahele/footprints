@@ -22,7 +22,7 @@ var {
   Listview,
   TouchableHighlight,
   ActivityIndicatorIOS
-} = React;
+  } = React;
 
 var EditPlaceDetail = t.struct({
   placeName: t.maybe(t.String),
@@ -31,7 +31,7 @@ var EditPlaceDetail = t.struct({
 });
 
 class EditPlace extends Component {
-   /**
+  /**
    * Creates an instance of EditPlace and sets the state with place details passed from props.
    * Allows for editing of a place's details and submits a PUT request when done button is clicked.
    *
@@ -39,7 +39,7 @@ class EditPlace extends Component {
    * @param {object} props is the place object from the tour that rendered this PlaceDetail view.
    * @this {PlaceDetail}
    */
-   constructor(props) {
+  constructor(props) {
     super(props);
     this.state = {
       id: (typeof this.props.place.id !== 'undefined') ? this.props.place.id : '',
@@ -53,69 +53,69 @@ class EditPlace extends Component {
       numPlacesInTour: 0,
       tourName: ''
     };
-   }
+  }
 
-  componentWillMount () {
+  componentWillMount() {
     var component = this;
     var options = {
       reqBody: {},
       reqParam: this.state.tourId
     };
     utils.makeRequest('tour', component, options)
-    .then((response) => {
-      console.log('componentWillMount in EditPlace, response: ', response)
-      this.setState({numPlacesInTour: response.places.length, tourName: response.tourName})
-    })
-    .done();
+      .then((response) => {
+        console.log('componentWillMount in EditPlace, response: ', response)
+        this.setState({numPlacesInTour: response.places.length, tourName: response.tourName})
+      })
+      .done();
   }
 
-   onChange(value) {
+  onChange(value) {
     this.setState(value);
   }
 
-   editDone() {
+  editDone() {
     var options = {
       reqBody: this.state,
       reqParam: this.state.id
     };
     var that = this;
     utils.makeRequest('editPlace', that, options)
-    .then(response => {
-      if(that.state.placeOrder !== that.state.origPlaceOrder) {
-        var orderOptions = {
-          reqBody: {
-            placeOrder: that.state.placeOrder,
-            placeId: that.state.id,
-            origPlaceOrder: that.state.origPlaceOrder
-          },
-          reqParam: that.state.tourId
-        };
-        utils.makeRequest('placeOrders', that, orderOptions)
-        .then(response => {
+      .then(response => {
+        if (that.state.placeOrder !== that.state.origPlaceOrder) {
+          var orderOptions = {
+            reqBody: {
+              placeOrder: that.state.placeOrder,
+              placeId: that.state.id,
+              origPlaceOrder: that.state.origPlaceOrder
+            },
+            reqParam: that.state.tourId
+          };
+          utils.makeRequest('placeOrders', that, orderOptions)
+            .then(response => {
+              var ViewCreatedTour = require('./ViewCreatedTour');
+              that.props.navigator.replace({
+                title: that.state.tourName,
+                component: ViewCreatedTour,
+                passProps: {
+                  tourId: that.state.tourId,
+                  editMode: true
+                }
+              });
+            });
+
+        } else {
           var ViewCreatedTour = require('./ViewCreatedTour');
           that.props.navigator.replace({
             title: that.state.tourName,
             component: ViewCreatedTour,
             passProps: {
-                        tourId: that.state.tourId,
-                        editMode: true
-                       }
+              tourId: that.state.tourId,
+              editMode: true
+            }
           });
-        });
-
-      } else {
-        var ViewCreatedTour = require('./ViewCreatedTour');
-        that.props.navigator.replace({
-            title: that.state.tourName,
-            component: ViewCreatedTour,
-            passProps: {
-                        tourId: that.state.tourId,
-                        editMode: true
-                       }
-        });
-      }
-    });
-   }
+        }
+      });
+  }
 
   editPhoto() {
     /*TODO: this should send a put request to update tour photo*/
@@ -161,7 +161,7 @@ class EditPlace extends Component {
     return (
       <View style={ styles.addPlaceContainer }>
 
-        <Image style={ styles.image } source={{ uri: this.state.image }} />
+        <Image style={ styles.image } source={{ uri: this.state.image }}/>
 
         <View style={{ marginTop: 55 }}>
           <Form
@@ -201,7 +201,7 @@ class EditPlace extends Component {
             </View>
             <View>
               <Image source={ require('../assets/photoicon.png') }
-                style={ [styles.photoIcon, {marginLeft: 15}, {width: 35}, {height: 35}] }/>
+                     style={ [styles.photoIcon, {marginLeft: 15}, {width: 35}, {height: 35}] }/>
             </View>
           </View>
         </TouchableHighlight>
@@ -216,7 +216,7 @@ class EditPlace extends Component {
             </View>
             <View>
               <Image source={ require('../assets/audioicon.png') }
-                style={ [styles.photoIcon, {marginLeft: 15}, {width: 35}, {height: 35}] }/>
+                     style={ [styles.photoIcon, {marginLeft: 15}, {width: 35}, {height: 35}] }/>
             </View>
           </View>
         </TouchableHighlight>
@@ -230,7 +230,8 @@ class EditPlace extends Component {
 
       </View>
     );
-   }
-};
+  }
+}
+;
 
 module.exports = EditPlace;

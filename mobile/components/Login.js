@@ -15,13 +15,12 @@ var {
   Image,
   TouchableHighlight,
   Component,
-  NavigatorIOS,
   AsyncStorage,
   ScrollView
 } = React;
 
 class Login extends Component {
-  
+
   constructor(props){
     super(props);
     this.state = {
@@ -50,7 +49,6 @@ class Login extends Component {
         } else if(response.error === 'Username and password do not match') {
           this.setState({validPassword: false, username: '', password: ''});        }
       } else {
-        // AsyncStorage.multiSet([['token', response.token],['user', response.userId.toString()]])
         AsyncStorage.setItem('token', response.token)
         .then(() => {
           console.log('from login client.....', response.token);
@@ -79,17 +77,17 @@ class Login extends Component {
     return (
       <View style={ styles.loginContainer }>
         <ScrollView ref="scrollView">
-          
+
           <View style={{ justifyContent: 'center', flex: 1 }}>
-            <Image 
-              style={{ height: DeviceHeight/2.15, width: DeviceWidth }} 
+            <Image
+              style={{ height: DeviceHeight/2.15, width: DeviceWidth }}
               source={require('../assets/logo.png')}/>
           </View>
-          
+
           <View style={ styles.inputs }>
             <View style={ styles.inputContainer }>
               <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
-              <TextInput 
+              <TextInput
                 style={ [styles.input, styles.whiteFont] }
                 placeholder="Username"
                 placeholderTextColor="#FFF"
@@ -113,16 +111,16 @@ class Login extends Component {
             </View>
 
             <Text style={ styles.whiteFont }>
-              { this.state.validUsername ? '' : 'Sorry this username does not exist, please try again' } 
+              { this.state.validUsername ? '' : 'Sorry this username does not exist, please try again' }
             </Text>
             <Text style={ styles.whiteFont }>
               { this.state.validPassword ? '' : 'Sorry this username and password do not match, please try again' }
             </Text>
-          </View>    
+          </View>
         </ScrollView>
 
         <View style={{flexDirection: 'row', justifyContent: 'center', marginBottom: 30}}>
-          <TouchableHighlight 
+          <TouchableHighlight
             onPress={ this.submitLogin.bind(this) }
             style={[styles.loginSignup, {backgroundColor: '#FFC107'}]}
             underlayColor='#FFC107'>

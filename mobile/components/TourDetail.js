@@ -19,21 +19,21 @@ var {
   ScrollView,
   StyleSheet,
   StatusBarIOS
-} = React;
+  } = React;
 
 var TourDetail = React.createClass({
-    mixins: [Mapbox.Mixin],
+  mixins: [Mapbox.Mixin],
 
 
   /**
    * Creates an instance of TourDetail and sets the state with the tourId passed from props.
-   * 
+   *
    * @constructor
    * @param {object} props is the tour object that was selected.
    * @this {TourDetail}
    */
   // constructor(props) {
-    // super(props);
+  // super(props);
   getInitialState() {
     return {
       isLoading: true,
@@ -67,24 +67,24 @@ var TourDetail = React.createClass({
     var options = {
       reqBody: {},
       reqParam: this.state.tourId
-    }; 
+    };
 
     utils.makeRequest('tour', component, options)
-    .then((response) => {
-      console.log('response body from TourDetail: ', response);
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(response.places),
-        isLoading: false,
-        cityName: response.cityName,
-        places: response.places
-      });
-      if(this.state.places.length === 0) {
-        //set center to city coords
-      } else {
-        this.createMarkers(this.state.places);
-      }
-    })
-    .done();
+      .then((response) => {
+        console.log('response body from TourDetail: ', response);
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(response.places),
+          isLoading: false,
+          cityName: response.cityName,
+          places: response.places
+        });
+        if (this.state.places.length === 0) {
+          //set center to city coords
+        } else {
+          this.createMarkers(this.state.places);
+        }
+      })
+      .done();
   },
 
   /**
@@ -97,7 +97,7 @@ var TourDetail = React.createClass({
     var lngSum = 0;
     var component = this;
     // var polyLineCoords = [];
-    places.forEach(function(place) {
+    places.forEach(function (place) {
       var parsedAddress = place.address.split('|');
       var lat = Number(parsedAddress[1]);
       var lng = Number(parsedAddress[2]);
@@ -122,11 +122,14 @@ var TourDetail = React.createClass({
         id: 'marker' + place.placeOrder
       });
     });
-    this.setState({annotations: markers, center: {latitude: latSum/places.length, longitude: lngSum/places.length}});
+    this.setState({
+      annotations: markers,
+      center: {latitude: latSum / places.length, longitude: lngSum / places.length}
+    });
   },
 
   onRegionChange(location) {
-    this.setState({ currentZoom: location.zoom });
+    this.setState({currentZoom: location.zoom});
   },
   onRegionWillChange(location) {
     // console.log(location);
@@ -139,7 +142,7 @@ var TourDetail = React.createClass({
   },
   onRightAnnotationTapped(e) {
     // e: {id: "marker54", title: "Zeitgeist", latitude: 37.7700304, subtitle: "Stop #7", longitude: -122.4221087}
-    
+
     this.setState({isLoading: true});
     var placeIndex = Number(e.id.slice(6)) - 1;
     var place = this.state.places[placeIndex];
@@ -153,37 +156,38 @@ var TourDetail = React.createClass({
   renderLoading () {
     console.log('renderLoading');
     return (
-    <View style={{alignItems: 'center', justifyContent: 'center'}}>
-      <ActivityIndicatorIOS
-            style={{alignItems: 'center', justifyContent: 'center', backgroundColor: 'black', height: 40}}
-            size="large"/>
-      <Image style={{justifyContent:'center', marginTop: 200}} source={require('../assets/loading.gif')}></Image>
-    </View>
+      <View style={{alignItems: 'center', justifyContent: 'center'}}>
+        <ActivityIndicatorIOS
+          style={{alignItems: 'center', justifyContent: 'center', backgroundColor: 'black', height: 40}}
+          size="large"/>
+        <Image style={{justifyContent:'center', marginTop: 200}} source={require('../assets/loading.gif')}></Image>
+      </View>
     )
   },
 
   renderPlace(place) {
     var imageURI = (typeof place.image !== 'undefined') ? place.image : null;
     return (
-      <TouchableHighlight onPress={ utils.navigateTo.bind(this,place.placeName, PlaceDetail, {place}) }  underlayColor='#dddddd'>
+      <TouchableHighlight onPress={ utils.navigateTo.bind(this,place.placeName, PlaceDetail, {place}) }
+                          underlayColor='#dddddd'>
         <View>
           {/*<View style={styles.tourSeparator} />*/}
           <View style={ styles.placeContainer }>
-            <Image source={{ uri: imageURI }} style={ styles.thumbnail }  />
+            <Image source={{ uri: imageURI }} style={ styles.thumbnail }/>
             <View style={ styles.rightContainer }>
               <Text style={ styles.placeName }>{ place.placeOrder + ' | ' + place.placeName }</Text>
               <Text style={ styles.address }>{ place.address.split(',')[0] }</Text>
             </View>
             <Image source={ require('../assets/arrow.png') } style={ styles.arrow }></Image>
           </View>
-          <View style={ styles.tourSeparator } />
+          <View style={ styles.tourSeparator }/>
         </View>
       </TouchableHighlight>
     );
   },
-  
+
   render: function () {
-    if(this.state.isLoading) {
+    if (this.state.isLoading) {
       return this.renderLoading();
     }
     return (
@@ -209,7 +213,7 @@ var TourDetail = React.createClass({
             onOpenAnnotation={this.onOpenAnnotation}
             onRightAnnotationTapped={this.onRightAnnotationTapped}
             onUpdateUserLocation={this.onUpdateUserLocation}
-            onLongPress={this.onLongPress} />
+            onLongPress={this.onLongPress}/>
         </View>
         <ScrollView automaticallyAdjustContentInsets={false}>
           <Text style={ [styles.tourTitle, {fontSize: 20}] }>{ this.state.tour.tourName }</Text>
@@ -217,16 +221,17 @@ var TourDetail = React.createClass({
             <Text style={ styles.bold }>Description:</Text> { this.state.tour.description + '\n' }
             <Text style={ styles.bold }>City:</Text> { this.state.tour.cityName + '\n' }
             {/*<Text style={styles.bold}>Category:</Text> {category + '\n'}*/}
-            <Text style={ styles.bold }>Est Time:</Text> { this.state.tour.duration + ' hours (' + this.state.places.length + ' stops)'}
+            <Text style={ styles.bold }>Est
+              Time:</Text> { this.state.tour.duration + ' hours (' + this.state.places.length + ' stops)'}
           </Text>
           <Text style={ [styles.tourTitle, {fontSize: 18}] }>Stops</Text>
-          <View style={ styles.tourSeparator } />
+          <View style={ styles.tourSeparator }/>
           <View style={ styles.panel }>
             <ListView
               dataSource={ this.state.dataSource }
               renderRow={ this.renderPlace }
               style={ styles.listView }
-              automaticallyAdjustContentInsets={false} />
+              automaticallyAdjustContentInsets={false}/>
           </View>
         </ScrollView>
       </View>

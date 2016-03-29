@@ -14,7 +14,7 @@ var {
   TabBarIOS,
   NavigatorIOS,
   AsyncStorage
- } = React;
+  } = React;
 
 class Main extends Component {
 
@@ -33,8 +33,8 @@ class Main extends Component {
     };
   }
 
-  selectTab (tab, ref) {
-    if(this.state.selectedTab !== tab) {
+  selectTab(tab, ref) {
+    if (this.state.selectedTab !== tab) {
       this.setState({
         selectedTab: tab
       });
@@ -43,7 +43,7 @@ class Main extends Component {
     }
   }
 
-  render () {
+  render() {
     return (
       <TabBarIOS
         tintColor="#00BCD4"
@@ -74,7 +74,7 @@ class Main extends Component {
                   passProps: { editMode: true },
                   onRightButtonPress: () => { this.refs.myToursView.navigator.pop();}
                 });}
-              }} />
+              }}/>
         </TabBarIOS.Item>
 
         <TabBarIOS.Item
@@ -88,7 +88,7 @@ class Main extends Component {
             titleTextColor="#FFF"
             style={styles.container}
             ref="allToursView"
-            initialRoute={{ title: 'All Tours', component: AllTours }} />
+            initialRoute={{ title: 'All Tours', component: AllTours }}/>
         </TabBarIOS.Item>
 
         <TabBarIOS.Item
@@ -102,7 +102,7 @@ class Main extends Component {
             titleTextColor="#FFF"
             style={styles.container}
             ref="createTourView"
-            initialRoute={{ title: 'Create a Tour', component: CreateTour }} />
+            initialRoute={{ title: 'Create a Tour', component: CreateTour }}/>
         </TabBarIOS.Item>
 
         <TabBarIOS.Item
@@ -116,7 +116,7 @@ class Main extends Component {
             titleTextColor="#FFF"
             style={styles.container}
             ref="settingsView"
-            initialRoute={{ title: 'Profile', component: Settings }} />
+            initialRoute={{ title: 'Profile', component: Settings }}/>
         </TabBarIOS.Item>
       </TabBarIOS>
     );

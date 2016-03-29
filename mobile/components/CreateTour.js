@@ -1,9 +1,6 @@
 'use strict';
 var React = require('react-native');
 var Dimensions = require('Dimensions');
-var windowSize = Dimensions.get('window');
-var DeviceWidth = Dimensions.get('window').width;
-var DeviceHeight = Dimensions.get('window').height;
 var ViewCreatedTour = require('./ViewCreatedTour');
 var SelectImage = require('./SelectImage');
 var utils = require('../lib/utility');
@@ -15,16 +12,11 @@ var {GooglePlacesAutocomplete} = require('react-native-google-places-autocomplet
 var placesAutoCompleteStyles = require('../lib/googlePlacesStyles');
 
 var {
-  StyleSheet,
   View,
   Text,
-  TextInput,
-  Image,
   TouchableHighlight,
   Component,
-  AsyncStorage,
-  NavigatorIOS
-} = React;
+  } = React;
 
 var Tour = t.struct({
   tourName: t.maybe(t.String),
@@ -59,7 +51,7 @@ class CreateTour extends Component {
    * @constructor
    * @this {CreateTour}
    */
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       tourName: '',
@@ -73,7 +65,7 @@ class CreateTour extends Component {
     };
   }
 
-  createAndAddPhoto () {
+  createAndAddPhoto() {
     var value = this.refs.form.getValue();
     console.log('input value...', value)
     var options = {
@@ -81,29 +73,29 @@ class CreateTour extends Component {
     };
     var component = this;
     utils.makeRequest('createTour', component, options)
-    .then(response => {
-      console.log('response body in Create Tour: ', response);
-      var props = {
-        tourId: response.id,
-        createTourView: true
-      }
-      utils.myTourNavigateTo.call(component, "Add Tour Photo", SelectImage, props);
-    })
-    .done();
+      .then(response => {
+        console.log('response body in Create Tour: ', response);
+        var props = {
+          tourId: response.id,
+          createTourView: true
+        }
+        utils.myTourNavigateTo.call(component, "Add Tour Photo", SelectImage, props);
+      })
+      .done();
   }
 
   onChange(value, path) {
     this.setState(value);
   }
 
-  clearText () {
+  clearText() {
     this.refs.form.getComponent('tourName').refs.input.clear();
     this.refs.form.getComponent('description').refs.input.clear();
     this.refs.form.getComponent('duration').refs.input.clear();
     this.refs.searchField.refs.textInput.clear();
   }
 
-  render () {
+  render() {
     return (
       <View style={ styles.addPlaceContainer }>
 
@@ -155,6 +147,7 @@ class CreateTour extends Component {
       </View>
     );
   }
-};
+}
+;
 
 module.exports = CreateTour;

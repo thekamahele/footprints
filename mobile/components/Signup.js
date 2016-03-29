@@ -19,7 +19,7 @@ var {
   TouchableHighlight,
   ScrollView,
   AsyncStorage
-} = React;
+  } = React;
 
 class Signup extends Component {
 
@@ -28,7 +28,7 @@ class Signup extends Component {
    * @constructor
    * @this {Signup}
    */
-  constructor(){
+  constructor() {
     super();
     this.state = {
       firstName: '',
@@ -42,8 +42,8 @@ class Signup extends Component {
   /**
    * Posts the user details to the server then redirects user to Main Tours page with the userId as a prop for the component
    */
-  submitSignup () {
-    this.setState({ validUsername: true });
+  submitSignup() {
+    this.setState({validUsername: true});
 
     var options = {
       reqBody: {
@@ -55,27 +55,27 @@ class Signup extends Component {
     };
     var component = this;
     utils.makeRequest('signup', component, options)
-    .then((response) => {
-      if( response.error ) {
-        this.setState({ validUsername: false, firstName: '', lastName: '', username: '', password: '' });
-      } else {
-        // AsyncStorage.multiSet([['token', response.token],['user', response.userId.toString()]])
-        AsyncStorage.setItem('token', response.token)
-        .then(() => {
-          console.log('from signup client.....', response.token);
-          utils.navigateTo.call(component, "Main", Main, {});
-        });
-      }
-    })
-    .catch((error) => {
-      console.warn(error);
-    });
+      .then((response) => {
+        if (response.error) {
+          this.setState({validUsername: false, firstName: '', lastName: '', username: '', password: ''});
+        } else {
+          // AsyncStorage.multiSet([['token', response.token],['user', response.userId.toString()]])
+          AsyncStorage.setItem('token', response.token)
+            .then(() => {
+              console.log('from signup client.....', response.token);
+              utils.navigateTo.call(component, "Main", Main, {});
+            });
+        }
+      })
+      .catch((error) => {
+        console.warn(error);
+      });
   }
-   
 
-  inputFocused (refName) {
+
+  inputFocused(refName) {
     var that = this;
-    setTimeout(function() {
+    setTimeout(function () {
       var scrollResponder = that.refs.scrollView.getScrollResponder();
       scrollResponder.scrollResponderScrollNativeHandleToKeyboard(
         React.findNodeHandle(that.refs[refName]),
@@ -85,78 +85,78 @@ class Signup extends Component {
     }, 50);
   }
 
-  render () {
+  render() {
     return (
       <View style={ styles.signupContainer }>
         <ScrollView ref="scrollView">
-        
-        <View style  = {{ justifyContent: 'center', flex: 1 }}>
-          <Image 
-            style = {{ height: DeviceHeight/2.15, width: DeviceWidth }} 
-            source={require('../assets/logogold.png')}/>
-        </View>
 
-      {/*<View>*/}
-        <View style={ [styles.inputs, {marginTop: 15}] }>
-          <View style={ styles.inputContainer }>
-            <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
-            <TextInput 
-              style={ [styles.input, styles.whiteFont] }
-              placeholder="First Name"
-              placeholderTextColor="#FFF"
-              value={ this.state.firstName }
-              onChange={ utils.firstNameInput.bind(this) }
-              ref='firstname'
-              onFocus={this.inputFocused.bind(this, 'firstname')}/>
+          <View style={{ justifyContent: 'center', flex: 1 }}>
+            <Image
+              style={{ height: DeviceHeight/2.15, width: DeviceWidth }}
+              source={require('../assets/logogold.png')}/>
           </View>
 
-          <View style={ styles.inputContainer }>
-            <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
-            <TextInput 
-              style={ [styles.input, styles.whiteFont] }
-              placeholder="Last Name"
-              placeholderTextColor="#FFF"
-              value={ this.state.lastName }
-              onChange={ utils.lastNameInput.bind(this) }
-              ref='lastname'
-              onFocus={this.inputFocused.bind(this, 'lastname')}/>
-          </View>
+          {/*<View>*/}
+          <View style={ [styles.inputs, {marginTop: 15}] }>
+            <View style={ styles.inputContainer }>
+              <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
+              <TextInput
+                style={ [styles.input, styles.whiteFont] }
+                placeholder="First Name"
+                placeholderTextColor="#FFF"
+                value={ this.state.firstName }
+                onChange={ utils.firstNameInput.bind(this) }
+                ref='firstname'
+                onFocus={this.inputFocused.bind(this, 'firstname')}/>
+            </View>
 
-          <View style={ styles.inputContainer }>
-            <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
-            <TextInput 
-              style={ [styles.input, styles.whiteFont] }
-              placeholder="Username"
-              placeholderTextColor="#FFF"
-              value={ this.state.username }
-              onChange={ utils.usernameInput.bind(this) }
-              ref='username'
-              onFocus={this.inputFocused.bind(this, 'username')}/>
-          </View>
+            <View style={ styles.inputContainer }>
+              <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
+              <TextInput
+                style={ [styles.input, styles.whiteFont] }
+                placeholder="Last Name"
+                placeholderTextColor="#FFF"
+                value={ this.state.lastName }
+                onChange={ utils.lastNameInput.bind(this) }
+                ref='lastname'
+                onFocus={this.inputFocused.bind(this, 'lastname')}/>
+            </View>
 
-          <View style={ styles.inputContainer }> 
-            <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/ON58SIG.png' }}/>
-            <TextInput
-              password={true}
-              style={ [styles.input, styles.whiteFont] }
-              placeholder="Password"
-              placeholderTextColor="#FFF"
-              value={ this.state.password }
-              onChange={ utils.passwordInput.bind(this) }
-              ref='password'
-              onFocus={this.inputFocused.bind(this, 'password')}/>
-          </View>
+            <View style={ styles.inputContainer }>
+              <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/iVVVMRX.png' }}/>
+              <TextInput
+                style={ [styles.input, styles.whiteFont] }
+                placeholder="Username"
+                placeholderTextColor="#FFF"
+                value={ this.state.username }
+                onChange={ utils.usernameInput.bind(this) }
+                ref='username'
+                onFocus={this.inputFocused.bind(this, 'username')}/>
+            </View>
+
+            <View style={ styles.inputContainer }>
+              <Image style={ styles.inputIcon } source={{ uri: 'http://i.imgur.com/ON58SIG.png' }}/>
+              <TextInput
+                password={true}
+                style={ [styles.input, styles.whiteFont] }
+                placeholder="Password"
+                placeholderTextColor="#FFF"
+                value={ this.state.password }
+                onChange={ utils.passwordInput.bind(this) }
+                ref='password'
+                onFocus={this.inputFocused.bind(this, 'password')}/>
+            </View>
 
             <Text style={ styles.whiteFont }>
-            {this.state.validUsername ? '' : 'Sorry this username already exists, please try again'}
+              {this.state.validUsername ? '' : 'Sorry this username already exists, please try again'}
             </Text>
 
-        {/*</View>*/}
-        </View>
+            {/*</View>*/}
+          </View>
         </ScrollView>
 
         <View style={{flexDirection: 'row', justifyContent: 'center' }}>
-          
+
           <TouchableHighlight
             onPress={ this.submitSignup.bind(this) }
             style={[styles.loginSignup, {backgroundColor: '#00BCD4'}]}
@@ -174,7 +174,8 @@ class Signup extends Component {
       </View>
     );
   }
-};
+}
+;
 
 module.exports = Signup;
 
