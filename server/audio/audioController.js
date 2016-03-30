@@ -35,12 +35,10 @@ module.exports = {
     putter.put(file, randomStr + '.m4a', 'audio/x-m4a', 'public-read');
 
     putter.on('progress', function (data) {
-      console.log('progress', data);
       // progress { percent: 20, written: 768, total: 3728 }
     });
 
     putter.on('response', function (data) {
-      console.log('response', data);
       //res.status(200).json(data);
       callback(data)
       // response { path: 'https://<bucket>.s3.amazonaws.com/images/success.jpg' }

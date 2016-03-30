@@ -20,24 +20,24 @@ module.exports = {
   signup: function (req, res, next) {
     var params = [req.body.userName, req.body.firstName, req.body.lastName, req.body.password];
 
-    users.checkNameAvailability(params[0], function(err, results) {
-      if(err) {
+    users.checkNameAvailability(params[0], function (err, results) {
+      if (err) {
         console.error(err);
         res.status(400).json({error: err});
       } else {
-        users.signup(params, function(err, results) {
-          if(err) {
+        users.signup(params, function (err, results) {
+          if (err) {
             res.status(404).json({error: err});
           } else {
-            users.getUserInfo(params[0], function(err, user) {
-              if(err) {
+            users.getUserInfo(params[0], function (err, user) {
+              if (err) {
                 res.status(404).json({error: err});
               } else {
-                  if (user) {
-                    var token = jwt.encode(user.id, 'secret');
-                    res.status(200).json({token: token, userId: user.id});
-                  } 
+                if (user) {
+                  var token = jwt.encode(user.id, 'secret');
+                  res.status(200).json({token: token, userId: user.id});
                 }
+              }
             });
           }
         });
@@ -56,9 +56,9 @@ module.exports = {
    */
   login: function (req, res, next) {
     var params = [req.body.userName, req.body.password];
-    
-    users.comparePassword(params, function(err, user) {
-      if(err) {
+
+    users.comparePassword(params, function (err, user) {
+      if (err) {
         console.error(err);
         res.status(400).json({error: err});
         next(err);
@@ -84,18 +84,18 @@ module.exports = {
     if (!token) {
       res.sendStatus(401);
     } else {
-        var user = jwt.decode(token, 'secret');
-        var queryStr = "select * from users where id = ?";
+      var user = jwt.decode(token, 'secret');
+      var queryStr = "select * from users where id = ?";
 
-        db.query(queryStr, user, function(err, userInfo) {
-          if(userInfo.length !== 0) {
-            next();
-          } else {
-							console.log('user is not in DB');
-							res.sendStatus(401);
-          	}
-        });
-      }
+      db.query(queryStr, user, function (err, userInfo) {
+        if (userInfo.length !== 0) {
+          next();
+        } else {
+          console.log('user is not in DB');
+          res.sendStatus(401);
+        }
+      });
+    }
   }
 
 };
